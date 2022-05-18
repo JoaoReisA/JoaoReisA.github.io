@@ -64236,7 +64236,7 @@ A.a6n.prototype={
 $0(){this.a.w=this.b},
 $S:0}
 A.GL.prototype={
-K(a,b){return new A.wS(B.Dz,"Flutter Demo",A.akO(null,B.as,!0),!1,null)}}
+K(a,b){return new A.wS(B.Dz,"JoaoReisA",A.akO(null,B.as,!0),!1,null)}}
 A.A6.prototype={
 h(a){return"_DashOffsetType."+this.b}}
 A.pB.prototype={
