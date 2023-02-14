@@ -4,21 +4,21 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "d30bf5d376727600f83d867aa0d5b410",
-"index.html": "64d9101dbd3fd117b5e38245c4331259",
-"/": "64d9101dbd3fd117b5e38245c4331259",
-"main.dart.js": "be8621c21e9ac585d854b445cb69e93b",
-"flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
+"index.html": "aaf58b2bd27b34ab957977b553b4e19d",
+"/": "aaf58b2bd27b34ab957977b553b4e19d",
+"main.dart.js": "b5f3c061ca454ef502fc045683f7a6b5",
+"flutter.js": "1cfe996e845b3a8a33f57607e8b09ee4",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "manifest.json": "7ce3a5c682a0f1e2df884ace0ec0e5ec",
-"assets/AssetManifest.json": "15366612616c322dd73ca3e80d48fa8d",
-"assets/NOTICES": "0c4ddc144493a526325c673812afd5ff",
+"assets/AssetManifest.json": "45836f73b16fdb74204ba63b402cb265",
+"assets/NOTICES": "5c61a0c9091ed1dd6f02dcbf593f3d65",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
-"assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
+"assets/fonts/MaterialIcons-Regular.otf": "e7069dfd19b331be16bed984668fe080",
 "assets/assets/images/wlr.jpg": "3256fad8bbd6eb8a74cb1569c9668fb5",
 "assets/assets/images/boom.png": "f818f0dd9f5afef9f561d91fa71664a5",
 "assets/assets/images/clouds.png": "5f60fdc83c530bed3bcb9db756dc135a",
@@ -30,17 +30,17 @@ const RESOURCES = {
 "assets/assets/images/meditating.png": "2fe79dc1240f06c38b6518408574f27c",
 "assets/assets/images/carti.png": "751002a686a46746334d813a0f2caa8b",
 "assets/assets/images/peace.png": "d90e1b40978b1d8db7b7f5617d85ded1",
-"assets/assets/audio/true_love.mp3": "2aa61e90668185e600ec65914fcffdcf",
+"assets/assets/audio/MF%2520Doom%2520-%2520Saffron.mp3": "565e050bdbcc6e5f55857de82be1840a",
 "assets/assets/icons/linkedin_icon.svg": "5b238434e2862c877f08572b96c0ef7b",
 "assets/assets/icons/instagram_icon.svg": "341a67c538d67f9ce92005cf14255dc2",
 "assets/assets/icons/github_icon.svg": "1bb027109345a90a9eab1e929d8669c2",
 "assets/assets/lottie/arrow-up.json": "a1e16c82d5fe843b73b0838cc7374603",
 "assets/assets/lottie/music-waves.json": "e429950a0e65d59f89c4cb02ac01cf45",
 "assets/assets/lottie/arrow-down.json": "b68fa2674ea135b6924cf6b47c3b916f",
-"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
-"canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
-"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
-"canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba"
+"canvaskit/canvaskit.js": "97937cb4c2c2073c968525a3e08c86a3",
+"canvaskit/profiling/canvaskit.js": "c21852696bc1cc82e8894d851c01921a",
+"canvaskit/profiling/canvaskit.wasm": "371bc4e204443b0d5e774d64a046eb99",
+"canvaskit/canvaskit.wasm": "3de12d898ec208a5f31362cc00f09b9e"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -48,7 +48,6 @@ const RESOURCES = {
 const CORE = [
   "main.dart.js",
 "index.html",
-"assets/NOTICES",
 "assets/AssetManifest.json",
 "assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
@@ -147,9 +146,11 @@ self.addEventListener("fetch", (event) => {
     .then((cache) =>  {
       return cache.match(event.request).then((response) => {
         // Either respond with the cached resource, or perform a fetch and
-        // lazily populate the cache.
+        // lazily populate the cache only if the resource was successfully fetched.
         return response || fetch(event.request).then((response) => {
-          cache.put(event.request, response.clone());
+          if (response && Boolean(response.ok)) {
+            cache.put(event.request, response.clone());
+          }
           return response;
         });
       })
